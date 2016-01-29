@@ -6,11 +6,11 @@
 #ALTERNATE_CORE_PATH = /home/sudar/Dropbox/code/arduino-sketches/hardware/attiny/
 
 BOARD_TAG    = atmega328
+OSD_LANG ?= OSD_ENGLISH
 
 ARDUINO_HEADER = dummy_header.h
 USER_LIB_PATH =  ../libraries
-include /usr/share/arduino/Arduino.mk
-OSD_LANG ?= OSD_ENGLISH
-CPPFLAGS += -Wno-deprecated-declarations -D$(OSD_LANG) 
+CXXFLAGS_STD = -Wno-deprecated-declarations -std=gnu++11 -D$(OSD_LANG)
+CFLAGS_STD = -std=gnu11 -Wno-deprecated-declarations -D$(OSD_LANG)
 
-# !!! Important. You have to use make ispload to upload when using ISP programmer
+include /usr/share/arduino/Arduino.mk
