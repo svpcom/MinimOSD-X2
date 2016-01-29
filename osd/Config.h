@@ -4,7 +4,7 @@
 
 // old eeprom format version for comatibility with
 // windows tool
-#define VER_OLD 76 
+#define VER_OLD 76
 
 // new eeprom format version
 #define VER_NEW 5
@@ -31,8 +31,8 @@
 #define HDir_BIT       3
 #define HDis_BIT       4
 //#define WDir_BIT       5 //
-#define WDis_BIT       6 //
-#define Time_BIT       7 
+#define WDis_BIT       6        //
+#define Time_BIT       7
 
 // panC_REG Byte has:
 #define CurA_BIT       0
@@ -107,17 +107,17 @@
 //#define panWPDir_en_ADDR 80 
 //#define panWPDir_x_ADDR 82  
 //#define panWPDir_y_ADDR 84  
-#define panWPDis_en_ADDR 86 
-#define panWPDis_x_ADDR 88  
-#define panWPDis_y_ADDR 90  
-#define panRSSI_en_ADDR 92 
-#define panRSSI_x_ADDR 94  
-#define panRSSI_y_ADDR 96  
+#define panWPDis_en_ADDR 86
+#define panWPDis_x_ADDR 88
+#define panWPDis_y_ADDR 90
+#define panRSSI_en_ADDR 92
+#define panRSSI_x_ADDR 94
+#define panRSSI_y_ADDR 96
 
 // Third set of 8 panels
-#define panCur_A_en_ADDR 98 
-#define panCur_A_x_ADDR 100 
-#define panCur_A_y_ADDR 102 
+#define panCur_A_en_ADDR 98
+#define panCur_A_x_ADDR 100
+#define panCur_A_y_ADDR 102
 #define panAlt_en_ADDR 110
 #define panAlt_x_ADDR 112
 #define panAlt_y_ADDR 114
@@ -189,8 +189,8 @@
 #define SIGN_MSL_ON_ADDR 876
 #define SIGN_HA_ON_ADDR 878
 #define SIGN_GS_ON_ADDR 880
-#define SIGN_AS_ON_ADDR 882 
-#define MODELL_TYPE_ADD 884 
+#define SIGN_AS_ON_ADDR 882
+#define MODELL_TYPE_ADD 884
 #define AUTO_SCREEN_SWITC_ADD 886
 #define OSD_BATT_SHOW_PERCENT_ADDR 888
 #define measure_ADDR 890
@@ -232,4 +232,4 @@
 #define VER_NEW_ADDR 1014
 
 
-#define EEPROM_MAX_ADDR 1024 // this is 328 chip
+#define EEPROM_MAX_ADDR 1024    // this is 328 chip

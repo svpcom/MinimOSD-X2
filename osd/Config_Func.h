@@ -8,28 +8,30 @@
 #define ISd(panel,whichBit) getBit(panD_REG[panel], whichBit)
 #define ISe(panel,whichBit) getBit(panE_REG[panel], whichBit)
 
-boolean getBit(byte Reg, byte whichBit) {
+boolean getBit(byte Reg, byte whichBit)
+{
     boolean State;
     State = Reg & (1 << whichBit);
     return State;
 }
 
-byte setBit(byte &Reg, byte whichBit, boolean stat) {
+byte setBit(byte & Reg, byte whichBit, boolean stat)
+{
     if (stat) {
         Reg = Reg | (1 << whichBit);
-    } 
-    else {
+    } else {
         Reg = Reg & ~(1 << whichBit);
     }
     return Reg;
 }
 
-byte readEEPROM(uint16_t address) {
+byte readEEPROM(uint16_t address)
+{
 
     return EEPROM.read(address);
 }
 
-void readSettings() 
+void readSettings()
 {
     overspeed = EEPROM.read(overspeed_ADDR);
     stall = EEPROM.read(stall_ADDR);
@@ -43,23 +45,24 @@ void readSettings()
 
     batt_warn_level = EEPROM.read(OSD_BATT_WARN_ADDR);
     rssi_warn_level = EEPROM.read(OSD_RSSI_WARN_ADDR);
-    
+
     uint8_t i;
-    for(i=0; i < OSD_CALL_SIGN_TOTAL; i++) 
+    for (i = 0; i < OSD_CALL_SIGN_TOTAL; i++)
         char_call[i] = EEPROM.read(OSD_CALL_SIGN_ADDR + i);
-    
-    if(osd_statf & NEW_CFG_F) {
-     motor_warn_thr = EEPROM.read(MOTOR_WARN_THR_ADDR);
-     motor_warn_curr = EEPROM.read(MOTOR_WARN_CURR_ADDR);
+
+    if (osd_statf & NEW_CFG_F) {
+        motor_warn_thr = EEPROM.read(MOTOR_WARN_THR_ADDR);
+        motor_warn_curr = EEPROM.read(MOTOR_WARN_CURR_ADDR);
     }
 }
 
-void readPanelSettings() {
+void readPanelSettings()
+{
 
     uint16_t offset = PANEL_CONFIG_SIZE * panel;
- //   setBit(panA_REG[panel], Cen_BIT, readEEPROM(panCenter_en_ADDR + offset));
- //   panCenter_XY[0][panel] = readEEPROM(panCenter_x_ADDR + offset);
- //   panCenter_XY[1][panel] = checkPAL(readEEPROM(panCenter_y_ADDR + offset));
+    //   setBit(panA_REG[panel], Cen_BIT, readEEPROM(panCenter_en_ADDR + offset));
+    //   panCenter_XY[0][panel] = readEEPROM(panCenter_x_ADDR + offset);
+    //   panCenter_XY[1][panel] = checkPAL(readEEPROM(panCenter_y_ADDR + offset));
 
     setBit(panA_REG[panel], Bp_BIT, readEEPROM(panBatteryPercent_en_ADDR + offset));
     panBatteryPercent_XY[0][panel] = readEEPROM(panBatteryPercent_x_ADDR + offset);
@@ -188,7 +191,7 @@ void readPanelSettings() {
     setBit(panD_REG[panel], RSSI_BIT, readEEPROM(panRSSI_en_ADDR + offset));
     panRSSI_XY[0][panel] = readEEPROM(panRSSI_x_ADDR + offset);
     panRSSI_XY[1][panel] = checkPAL(readEEPROM(panRSSI_y_ADDR + offset));
-    
+
     setBit(panD_REG[panel], Eff_BIT, readEEPROM(panEff_en_ADDR + offset));
     panEff_XY[0][panel] = readEEPROM(panEff_x_ADDR + offset);
     panEff_XY[1][panel] = checkPAL(readEEPROM(panEff_y_ADDR + offset));
@@ -209,32 +212,36 @@ void readPanelSettings() {
     panDistance_XY[0][panel] = readEEPROM(panDistance_x_ADDR + offset);
     panDistance_XY[1][panel] = checkPAL(readEEPROM(panDistance_y_ADDR + offset));
 
-    if((osd_statf&NEW_CFG_F) == 0) return;
+    if ((osd_statf & NEW_CFG_F) == 0)
+        return;
     setBit(panE_REG[panel], CAM_POS_BIT, readEEPROM(panCamPos_en_ADDR + offset));
     panCameraPos_XY[0][panel] = readEEPROM(panCamPos_x_ADDR + offset);
     panCameraPos_XY[1][panel] = checkPAL(readEEPROM(panCamPos_y_ADDR + offset));
 }
 
-static int checkPAL(int line){
-    if(line >= MAX7456_CENTER_NTSC && osd.getMode() == 0) line -= 3;
+static int checkPAL(int line)
+{
+    if (line >= MAX7456_CENTER_NTSC && osd.getMode() == 0)
+        line -= 3;
     return line;
 }
 
-static bool 
-get_item_config(uint16_t addr, uint8_t panel, uint8_t *xr, uint8_t *yr, uint8_t *flag_bits)
+static bool get_item_config(uint16_t addr, uint8_t panel, uint8_t * xr, uint8_t * yr, uint8_t * flag_bits)
 {
- uint8_t x, y, f;
+    uint8_t x, y, f;
 
- if((osd_statf & NEW_CFG_F) == 0) return false;
- addr += panel * PANEL_CONFIG_SIZE;
- x = eeprom_read_byte((uint8_t*)addr);
- if ((x & 0x80) == 0) return false;
- y = eeprom_read_byte((uint8_t*)addr+1);
- f = (y >> 4) | ((x & 0x60)>>1);
- y &= 0x0f;
- x &= 0x1f;
- *yr = checkPAL(y);
- *xr = x;
- *flag_bits = f;
- return true;
+    if ((osd_statf & NEW_CFG_F) == 0)
+        return false;
+    addr += panel * PANEL_CONFIG_SIZE;
+    x = eeprom_read_byte((uint8_t *) addr);
+    if ((x & 0x80) == 0)
+        return false;
+    y = eeprom_read_byte((uint8_t *) addr + 1);
+    f = (y >> 4) | ((x & 0x60) >> 1);
+    y &= 0x0f;
+    x &= 0x1f;
+    *yr = checkPAL(y);
+    *xr = x;
+    *flag_bits = f;
+    return true;
 }

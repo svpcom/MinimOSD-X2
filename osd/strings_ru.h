@@ -28,4 +28,3 @@
 #define CH_WP2 '\x74'
 #define CH_XTRACK_ERROR1 '\x4f'
 #define CH_XTRACK_ERROR2 '\x7a'
-

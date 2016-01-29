@@ -1,15 +1,15 @@
 /*
-   This project is focused on optimization and redesign of firmware for MinimOSD 
+   This project is focused on optimization and redesign of firmware for MinimOSD
    board and it's clones. Project is based on MinimOSD Extra. User interface
    concept, look and feel are planned not change from MinimOSD Extra. Firmware
    will retain compatibility with minimosdextra's Windows configuration tool
    (OSD_Config) for some time.
-   
+
    June 2015
    Kirill A. Kornilov
 
    Keywords: MAX7456 ATMEGA328P MAVLINK
-   Original copyrights found in MinimOSD_Extra_Plane_Pre_release_Beta.ino 
+   Original copyrights found in MinimOSD_Extra_Plane_Pre_release_Beta.ino
    are retained below.
  */
 
@@ -71,7 +71,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
 
 #ifdef OSD_RUSSIAN
 #include "strings_ru.h"
-#else 
+#else
 #include "strings_en.h"
 #endif
 
@@ -86,52 +86,53 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
 FastSerialPort0(Serial);
 OSD osd;
 
-void setup() 
+void setup()
 {
-	if(eeprom_read_byte((uint8_t*)VER_NEW_ADDR) == VER_NEW)
-     osd_statf |= NEW_CFG_F;
-    if((osd_statf & NEW_CFG_F) != 0
-       && eeprom_read_byte((uint8_t*)MAV_BAUD_ADDR) == 115)
-     Serial.begin(115200);
-    else Serial.begin(57600);
+    if (eeprom_read_byte((uint8_t *) VER_NEW_ADDR) == VER_NEW)
+        osd_statf |= NEW_CFG_F;
+    if ((osd_statf & NEW_CFG_F) != 0 && eeprom_read_byte((uint8_t *) MAV_BAUD_ADDR) == 115)
+        Serial.begin(115200);
+    else
+        Serial.begin(57600);
     // setup mavlink port
     mavlink_comm_0_port = &Serial;
 
-    // Prepare OSD for displaying 
+    // Prepare OSD for displaying
     osd.init((osd_statf & NEW_CFG_F) != 0);
 
-    // Start 
+    // Start
     startPanels();
     delay(500);
 
     // Get correct panel settings from EEPROM
     readSettings();
-    for(panel = 0; panel < npanels; panel++) readPanelSettings();
-    panel = 0; //set panel to 0 to start in the first navigation screen
+    for (panel = 0; panel < npanels; panel++)
+        readPanelSettings();
+    panel = 0;                  //set panel to 0 to start in the first navigation screen
     checkModellType();
     load_mavlink_settings();
-	delay(2000);
-	Serial.flush(); 
+    delay(2000);
+    Serial.flush();
 }
 
-void loop() 
+void loop()
 {
 
-    if((osd_statf & (NEW_DATA_F|SCREEN_UP_F)) == NEW_DATA_F || millis() > mavLinkTimer + 120) {
-      mavLinkTimer = millis();
-      setHeadingPatern();  // generate the heading patern
-      setHomeVars();   // calculate and set Distance from home and Direction to home
-      setFdataVars();
-      writePanels();
-      osd_statf |= SCREEN_UP_F;
-      osd_statf &= ~NEW_DATA_F;
+    if ((osd_statf & (NEW_DATA_F | SCREEN_UP_F)) == NEW_DATA_F || millis() > mavLinkTimer + 120) {
+        mavLinkTimer = millis();
+        setHeadingPatern();     // generate the heading patern
+        setHomeVars();          // calculate and set Distance from home and Direction to home
+        setFdataVars();
+        writePanels();
+        osd_statf |= SCREEN_UP_F;
+        osd_statf &= ~NEW_DATA_F;
     }
 
-    if(osd_statf & SCREEN_UP_F) {
-      if(osd.checkVsync()) {
-        osd.update();
-        osd_statf &= ~SCREEN_UP_F;
-      }
+    if (osd_statf & SCREEN_UP_F) {
+        if (osd.checkVsync()) {
+            osd.update();
+            osd_statf &= ~SCREEN_UP_F;
+        }
     }
 
     read_mavlink();
