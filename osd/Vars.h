@@ -65,7 +65,38 @@ static int16_t cam_pan_angle = 0;
 //static uint16_t   osd_battery_remaining_B = 0;  // 0 to 100 <=> 0 to 1000
 //static uint8_t    osd_battery_pic_B = 0xb4;     // picture to show battery remaining
 static float start_Time = -1.0;
-static uint8_t osd_mode = 0;    // Navigation mode from RC AC2 = CH5, APM = CH8
+enum PX4_CUSTOM_MAIN_MODE {
+        PX4_CUSTOM_MAIN_MODE_MANUAL = 1,
+        PX4_CUSTOM_MAIN_MODE_ALTCTL,
+        PX4_CUSTOM_MAIN_MODE_POSCTL,
+        PX4_CUSTOM_MAIN_MODE_AUTO,
+        PX4_CUSTOM_MAIN_MODE_ACRO,
+        PX4_CUSTOM_MAIN_MODE_OFFBOARD,
+        PX4_CUSTOM_MAIN_MODE_STABILIZED
+};
+
+enum PX4_CUSTOM_SUB_MODE_AUTO {
+        PX4_CUSTOM_SUB_MODE_AUTO_READY = 1,
+        PX4_CUSTOM_SUB_MODE_AUTO_TAKEOFF,
+        PX4_CUSTOM_SUB_MODE_AUTO_LOITER,
+        PX4_CUSTOM_SUB_MODE_AUTO_MISSION,
+        PX4_CUSTOM_SUB_MODE_AUTO_RTL,
+        PX4_CUSTOM_SUB_MODE_AUTO_LAND,
+        PX4_CUSTOM_SUB_MODE_AUTO_RTGS
+};
+
+union px4_custom_mode {
+        struct {
+                uint16_t reserved;
+                uint8_t main_mode;
+                uint8_t sub_mode;
+        };
+        uint32_t data;
+        float data_float;
+};
+
+static union px4_custom_mode custom_mode = {.data = 0};
+
 static unsigned long mavLinkTimer = 0;
 static unsigned long runt = 0;
 static unsigned long FTime = 0;

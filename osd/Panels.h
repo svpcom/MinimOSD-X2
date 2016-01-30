@@ -446,8 +446,7 @@ void panCALLSIGN(int first_col, int first_line)
     uint8_t i;
     char ch;
     osd.setPanel(first_col, first_line);
-    if (((millis() / 1000) % 60) > 1)
-        return;
+
     for (i = 0; i < sizeof(char_call); i++) {
         ch = char_call[i];
         if (ch == 0 || ch == '\xff')
@@ -485,74 +484,74 @@ void panWindSpeed(int first_col, int first_line)
 
 void check_panel_switch(int8_t allow_autoswitch)
 {
-    bool rotatePanel = 0;
-    uint16_t ch_raw = 0;
-    uint8_t np;
+    /* bool rotatePanel = 0; */
+    /* uint16_t ch_raw = 0; */
+    /* uint8_t np; */
 
-    np = (osd_statf & NEW_CFG_F) != 0 ? npanels : 2;
-    if (warning != 0 && panel_auto_switch <= np && allow_autoswitch && (panel == npanels || !ISd(panel, Warn_BIT))) {
-        panel = panel_auto_switch;
-        osd_statf |= WARN_PANEL_F;
-        return;
-    }
-    //Flight mode switching
-    if (ch_toggle == 4) {
-        if (osd_mode != 6 && osd_mode != 7) {
-            if (osd_off_switch != osd_mode) {
-                osd_off_switch = osd_mode;
-                osd_switch_time = millis();
-                if (osd_off_switch == osd_switch_last) {
-                    rotatePanel = 1;
-                }
-            }
-            if ((millis() - osd_switch_time) > 2000) {
-                osd_switch_last = osd_mode;
-            }
-        }
-    } else {
+    /* np = (osd_statf & NEW_CFG_F) != 0 ? npanels : 2; */
+    /* if (warning != 0 && panel_auto_switch <= np && allow_autoswitch && (panel == npanels || !ISd(panel, Warn_BIT))) { */
+    /*     panel = panel_auto_switch; */
+    /*     osd_statf |= WARN_PANEL_F; */
+    /*     return; */
+    /* } */
+    /* //Flight mode switching */
+    /* if (ch_toggle == 4) { */
+    /*     if (osd_mode != 6 && osd_mode != 7) { */
+    /*         if (osd_off_switch != osd_mode) { */
+    /*             osd_off_switch = osd_mode; */
+    /*             osd_switch_time = millis(); */
+    /*             if (osd_off_switch == osd_switch_last) { */
+    /*                 rotatePanel = 1; */
+    /*             } */
+    /*         } */
+    /*         if ((millis() - osd_switch_time) > 2000) { */
+    /*             osd_switch_last = osd_mode; */
+    /*         } */
+    /*     } */
+    /* } else { */
 
-        if (ch_toggle == 5)
-            ch_raw = chan5_raw;
-        else if (ch_toggle == 6)
-            ch_raw = chan6_raw;
-        else if (ch_toggle == 7)
-            ch_raw = chan7_raw;
-        else if (ch_toggle == 8)
-            ch_raw = chan8_raw;
+    /*     if (ch_toggle == 5) */
+    /*         ch_raw = chan5_raw; */
+    /*     else if (ch_toggle == 6) */
+    /*         ch_raw = chan6_raw; */
+    /*     else if (ch_toggle == 7) */
+    /*         ch_raw = chan7_raw; */
+    /*     else if (ch_toggle == 8) */
+    /*         ch_raw = chan8_raw; */
 
-        //Switch mode by value
-        if (switch_mode == 0) {
-            uint8_t p;
-            if (ch_raw < 1200)
-                p = 0;          // First panel
-            else if (ch_raw <= 1300)
-                p = 1;          // Second panel
-            else if (ch_raw <= 1400)
-                p = 2;
-            else
-                p = npanels;    // Clean screen
+    /*     //Switch mode by value */
+    /*     if (switch_mode == 0) { */
+    /*         uint8_t p; */
+    /*         if (ch_raw < 1200) */
+    /*             p = 0;          // First panel */
+    /*         else if (ch_raw <= 1300) */
+    /*             p = 1;          // Second panel */
+    /*         else if (ch_raw <= 1400) */
+    /*             p = 2; */
+    /*         else */
+    /*             p = npanels;    // Clean screen */
 
-            /* if auto switch was activated, warn_switch is 2 and panel switching
-               is not allowed before user selects active panel explicitly */
-            if (panel_auto_switch == p || !allow_autoswitch)
-                osd_statf &= ~WARN_PANEL_F;
-            if (!(osd_statf & WARN_PANEL_F))
-                panel = p;
-        } else {                //Rotation switch
-            if (ch_raw > 1200)
-                if (osd_switch_time + 1000 < millis()) {
-                    rotatePanel = 1;
-                    osd_switch_time = millis();
-                }
-        }
-    }
-    if (rotatePanel) {
-        panel++;
-        if (panel > np)
-            panel = 0;
-    }
-    if (np != npanels && panel == np)
-        panel = npanels;
+    /*         /\* if auto switch was activated, warn_switch is 2 and panel switching */
+    /*            is not allowed before user selects active panel explicitly *\/ */
+    /*         if (panel_auto_switch == p || !allow_autoswitch) */
+    /*             osd_statf &= ~WARN_PANEL_F; */
+    /*         if (!(osd_statf & WARN_PANEL_F)) */
+    /*             panel = p; */
+    /*     } else {                //Rotation switch */
+    /*         if (ch_raw > 1200) */
+    /*             if (osd_switch_time + 1000 < millis()) { */
+    /*                 rotatePanel = 1; */
+    /*                 osd_switch_time = millis(); */
+    /*             } */
+    /*     } */
+    /* } */
+    /* if (rotatePanel) { */
+    /*     panel++; */
+    /*     if (panel > np) */
+    /*         panel = 0; */
+    /* } */
+    /* if (np != npanels && panel == np) */
+    /*     panel = npanels; */
 }
 
 //* **************************************************************** */
@@ -1076,9 +1075,9 @@ void panWPDis(int first_col, int first_line)
     osd.printf_P(PSTR("%c%c%2i%c%4.0f%c|"), CH_WP1, CH_WP2, wp_number, ' ', (double) ((float) (wp_dist) * converth), high);
     showArrow((uint8_t) wp_target_bearing_rotate_int);
 
-    if (osd_mode == 10 || osd_mode == 15 || osd_mode == 7) {
-        osd.printf_P(PSTR("%c%c%c%4.0f%c"), ' ', CH_XTRACK_ERROR1, CH_XTRACK_ERROR2, xtrack_error * converth, high);
-    }
+    /* if (osd_mode == 10 || osd_mode == 15 || osd_mode == 7) { */
+    /*     osd.printf_P(PSTR("%c%c%c%4.0f%c"), ' ', CH_XTRACK_ERROR1, CH_XTRACK_ERROR2, xtrack_error * converth, high); */
+    /* } */
 }
 
 /* **************************************************************** */
@@ -1103,36 +1102,75 @@ void panHomeDir(int first_col, int first_line)
 
 void panFlightMode(int first_col, int first_line)
 {
-    osd.setPanel(first_col, first_line);
     const char *mode_str = PSTR("");
-    if (osd_mode == 0)
-        mode_str = PSTR(TXT_MODE_MANUAL);
-    if (osd_mode == 1)
-        mode_str = PSTR(TXT_MODE_CIRCLE);
-    if (osd_mode == 2)
-        mode_str = PSTR(TXT_MODE_STABILIZE);
-    if (osd_mode == 3)
-        mode_str = PSTR(TXT_MODE_TRAINING);
-    if (osd_mode == 4)
-        mode_str = PSTR(TXT_MODE_ACRO);
-    if (osd_mode == 5)
-        mode_str = PSTR(TXT_MODE_FBWA);
-    if (osd_mode == 6)
-        mode_str = PSTR(TXT_MODE_FBWB);
-    if (osd_mode == 7)
-        mode_str = PSTR(TXT_MODE_CRUISE);
-    if (osd_mode == 8)
-        mode_str = PSTR(TXT_MODE_AUTOTUNE);
-    if (osd_mode == 10)
-        mode_str = PSTR(TXT_MODE_AUTO);
-    if (osd_mode == 11)
-        mode_str = PSTR(TXT_MODE_RTL);
-    if (osd_mode == 12)
-        mode_str = PSTR(TXT_MODE_LOITER);
-    if (osd_mode == 15)
-        mode_str = PSTR(TXT_MODE_GUIDED);
-    if (osd_mode == 16)
-        mode_str = PSTR(TXT_MODE_INITIALIZING);
+    osd.setPanel(first_col, first_line);
+
+    switch(custom_mode.main_mode)
+    {
+    case PX4_CUSTOM_MAIN_MODE_MANUAL:
+        mode_str = PSTR(TXT_MAIN_MODE_MANUAL);
+        break;
+
+    case PX4_CUSTOM_MAIN_MODE_ALTCTL:
+        mode_str = PSTR(TXT_MAIN_MODE_ALTCTL);
+        break;
+
+    case PX4_CUSTOM_MAIN_MODE_POSCTL:
+        mode_str = PSTR(TXT_MAIN_MODE_POSCTL);
+        break;
+
+    case PX4_CUSTOM_MAIN_MODE_AUTO:
+        switch(custom_mode.sub_mode)
+        {
+        case PX4_CUSTOM_SUB_MODE_AUTO_READY:
+            mode_str = PSTR(TXT_SUB_MODE_AUTO_READY);
+            break;
+
+        case PX4_CUSTOM_SUB_MODE_AUTO_TAKEOFF:
+            mode_str = PSTR(TXT_SUB_MODE_AUTO_TAKEOFF);
+            break;
+
+        case PX4_CUSTOM_SUB_MODE_AUTO_LOITER:
+            mode_str = PSTR(TXT_SUB_MODE_AUTO_LOITER);
+            break;
+
+        case PX4_CUSTOM_SUB_MODE_AUTO_MISSION:
+            mode_str = PSTR(TXT_SUB_MODE_AUTO_MISSION);
+            break;
+
+        case PX4_CUSTOM_SUB_MODE_AUTO_RTL:
+            mode_str = PSTR(TXT_SUB_MODE_AUTO_RTL);
+            break;
+
+        case PX4_CUSTOM_SUB_MODE_AUTO_LAND:
+            mode_str = PSTR(TXT_SUB_MODE_AUTO_LAND);
+            break;
+
+        case PX4_CUSTOM_SUB_MODE_AUTO_RTGS:
+            mode_str = PSTR(TXT_SUB_MODE_AUTO_RTGS);
+            break;
+
+        default:
+            mode_str = PSTR(TXT_MAIN_MODE_AUTO);
+            break;
+        }
+        break;
+
+    case PX4_CUSTOM_MAIN_MODE_ACRO:
+        mode_str = PSTR(TXT_MAIN_MODE_ACRO);
+        break;
+
+    case PX4_CUSTOM_MAIN_MODE_OFFBOARD:
+        mode_str = PSTR(TXT_MAIN_MODE_OFFBOARD);
+        break;
+
+    case PX4_CUSTOM_MAIN_MODE_STABILIZED:
+        mode_str = PSTR(TXT_MAIN_MODE_STABILIZED);
+        break;
+
+    default:
+        break;
+    }
     osd.printf_P(mode_str);
 }
 

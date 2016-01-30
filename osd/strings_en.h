@@ -9,20 +9,23 @@
 #define TXT_WARN_MOTOR     " Motor off!"
 #define TXT_WARN_NOMAV     "No MAV data!"
 
-#define TXT_MODE_MANUAL "manu"
-#define TXT_MODE_CIRCLE "circ"
-#define TXT_MODE_STABILIZE "stab"
-#define TXT_MODE_TRAINING "trai"
-#define TXT_MODE_ACRO "acro"
-#define TXT_MODE_FBWA "fbwa"
-#define TXT_MODE_FBWB "fbwb"
-#define TXT_MODE_CRUISE "cruz"
-#define TXT_MODE_AUTOTUNE "atun"
-#define TXT_MODE_AUTO "auto"
-#define TXT_MODE_RTL "retl"
-#define TXT_MODE_LOITER "loit"
-#define TXT_MODE_GUIDED "guid"
-#define TXT_MODE_INITIALIZING "init"
+// max 7 chars
+
+#define TXT_MAIN_MODE_MANUAL "manual"
+#define TXT_MAIN_MODE_ALTCTL "altctr"
+#define TXT_MAIN_MODE_POSCTL "posctr"
+#define TXT_MAIN_MODE_AUTO  "auto"
+#define TXT_MAIN_MODE_ACRO  "acro"
+#define TXT_MAIN_MODE_OFFBOARD "offbrd"
+#define TXT_MAIN_MODE_STABILIZED "stab"
+
+#define TXT_SUB_MODE_AUTO_READY "ready"
+#define TXT_SUB_MODE_AUTO_TAKEOFF "takeoff"
+#define TXT_SUB_MODE_AUTO_LOITER "loiter"
+#define TXT_SUB_MODE_AUTO_MISSION "mission"
+#define TXT_SUB_MODE_AUTO_RTL "rtl"
+#define TXT_SUB_MODE_AUTO_LAND "land"
+#define TXT_SUB_MODE_AUTO_RTGS "rtgs"
 
 #define CH_WP1 'W'
 #define CH_WP2 'p'

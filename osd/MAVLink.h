@@ -16,10 +16,7 @@ void load_mavlink_settings(void)
 static void process_command(mavlink_message_t * msg)
 {
     mavlink_command_long_t *c;
-    uint8_t *pdata;
-
-    pdata = (uint8_t *) _MAV_PAYLOAD_NON_CONST(msg);
-    c = (mavlink_command_long_t *) pdata;
+    c = (mavlink_command_long_t *) _MAV_PAYLOAD_NON_CONST(msg);
 
     if (c->target_system != mavlink_system.sysid || c->target_component != mavlink_system.compid)
         return;
@@ -80,9 +77,10 @@ void read_mavlink()
                     uint8_t type = mavlink_msg_heartbeat_get_autopilot(&msg);
                     if (type == MAV_AUTOPILOT_INVALID)
                         break;
-                    if (mavlink_system.sysid == 97)
+                    if (mavlink_system.sysid == 97) {
                         mavlink_system.sysid = msg.sysid;
-                    osd_mode = (uint8_t) mavlink_msg_heartbeat_get_custom_mode(&msg);
+                    }
+                    custom_mode.data = mavlink_msg_heartbeat_get_custom_mode(&msg);
                 }
                 break;
             case MAVLINK_MSG_ID_BATTERY2:
@@ -142,17 +140,17 @@ void read_mavlink()
                     wp_number = (uint8_t) mavlink_msg_mission_current_get_seq(&msg);
                 }
                 break;
-            case MAVLINK_MSG_ID_RC_CHANNELS_RAW:
+            case MAVLINK_MSG_ID_RC_CHANNELS:
                 {
 //                    chan1_raw = mavlink_msg_rc_channels_raw_get_chan1_raw(&msg);
 //                    chan2_raw = mavlink_msg_rc_channels_raw_get_chan2_raw(&msg);
 //                    chan3_raw = mavlink_msg_rc_channels_raw_get_chan3_raw(&msg);
 //                    chan4_raw = mavlink_msg_rc_channels_raw_get_chan4_raw(&msg);
-                    chan5_raw = mavlink_msg_rc_channels_raw_get_chan5_raw(&msg);
-                    chan6_raw = mavlink_msg_rc_channels_raw_get_chan6_raw(&msg);
-                    chan7_raw = mavlink_msg_rc_channels_raw_get_chan7_raw(&msg);
-                    chan8_raw = mavlink_msg_rc_channels_raw_get_chan8_raw(&msg);
-                    osd_rssi = mavlink_msg_rc_channels_raw_get_rssi(&msg);
+                    chan5_raw = mavlink_msg_rc_channels_get_chan5_raw(&msg);
+                    chan6_raw = mavlink_msg_rc_channels_get_chan6_raw(&msg);
+                    chan7_raw = mavlink_msg_rc_channels_get_chan7_raw(&msg);
+                    chan8_raw = mavlink_msg_rc_channels_get_chan8_raw(&msg);
+                    osd_rssi = mavlink_msg_rc_channels_get_rssi(&msg);
                 }
                 break;
             case MAVLINK_MSG_ID_WIND:
