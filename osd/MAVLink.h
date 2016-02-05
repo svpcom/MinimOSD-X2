@@ -159,9 +159,9 @@ void read_mavlink()
                     osd_windspeed = mavlink_msg_wind_get_speed(&msg);   //m/s
                 }
                 break;
-            case MAVLINK_MSG_ID_SCALED_PRESSURE:
+            case MAVLINK_MSG_ID_HIGHRES_IMU:
                 {
-                    temperature = mavlink_msg_scaled_pressure_get_temperature(&msg);
+                    temperature = mavlink_msg_highres_imu_get_temperature(&msg);
                 }
                 break;
             case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:

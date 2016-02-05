@@ -100,11 +100,11 @@ static union px4_custom_mode custom_mode = {.data = 0};
 static unsigned long mavLinkTimer = 0;
 static unsigned long runt = 0;
 static unsigned long FTime = 0;
-static unsigned long landed = 4294967295UL;
+/* static unsigned long landed = 4294967295UL; */
 
-static uint8_t osd_off_switch = 0;
-static uint8_t osd_switch_last = 100;
-static unsigned long osd_switch_time = 0;
+/* static uint8_t osd_off_switch = 0; */
+/* static uint8_t osd_switch_last = 100; */
+/* static unsigned long osd_switch_time = 0; */
 static float palt = 0;
 static float osd_climb = 0;
 
@@ -138,13 +138,13 @@ static float osd_winddirection = 0;
 
 static float osd_groundspeed = 0;       // ground speed
 static uint8_t osd_throttle = 0;        // throtle
-static uint16_t temperature = 0;
+static float temperature = 30;
 static uint8_t tempconv = 1;
 static uint16_t tempconvAdd = 0;
 static uint16_t osd_battb_volt = 0;
 static char distchar = 0;
 static char climbchar = 0;
-static int8_t fdata_prev_panel;
+/* static int8_t fdata_prev_panel; */
 
 
 //Call sign variables

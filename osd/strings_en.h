@@ -12,8 +12,8 @@
 // max 7 chars
 
 #define TXT_MAIN_MODE_MANUAL "manual"
-#define TXT_MAIN_MODE_ALTCTL "altctr"
-#define TXT_MAIN_MODE_POSCTL "posctr"
+#define TXT_MAIN_MODE_ALTCTL "altctrl"
+#define TXT_MAIN_MODE_POSCTL "posctrl"
 #define TXT_MAIN_MODE_AUTO  "auto"
 #define TXT_MAIN_MODE_ACRO  "acro"
 #define TXT_MAIN_MODE_OFFBOARD "offbrd"
