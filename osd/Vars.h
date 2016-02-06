@@ -138,7 +138,7 @@ static float osd_winddirection = 0;
 
 static float osd_groundspeed = 0;       // ground speed
 static uint8_t osd_throttle = 0;        // throtle
-static float temperature = 30;
+static float temperature = 0;
 static uint8_t tempconv = 1;
 static uint16_t tempconvAdd = 0;
 static uint16_t osd_battb_volt = 0;

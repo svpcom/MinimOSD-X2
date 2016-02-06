@@ -1,6 +1,6 @@
 #include <avr/wdt.h>
 #include "../GCS_MAVLink/include/mavlink/v1.0/mavlink_types.h"
-#include "../GCS_MAVLink/include/mavlink/v1.0/ardupilotmega/mavlink.h"
+#include "../GCS_MAVLink/include/mavlink/v1.0/pixhawk/mavlink.h"
 
 static int8_t lf_count = 0;     // -1 when we have received at least 1 MAVLink packet
 
@@ -83,9 +83,9 @@ void read_mavlink()
                     custom_mode.data = mavlink_msg_heartbeat_get_custom_mode(&msg);
                 }
                 break;
-            case MAVLINK_MSG_ID_BATTERY2:
-                osd_battb_volt = mavlink_msg_battery2_get_voltage(&msg);
-                break;
+            /* case MAVLINK_MSG_ID_BATTERY2: */
+            /*     osd_battb_volt = mavlink_msg_battery2_get_voltage(&msg); */
+            /*     break; */
             case MAVLINK_MSG_ID_SYS_STATUS:
                 {
                     osd_vbat_A = (mavlink_msg_sys_status_get_voltage_battery(&msg) / 1000.0f);  //Battery voltage, in millivolts (1 = 1 millivolt)
@@ -120,26 +120,26 @@ void read_mavlink()
                     osd_roll = ToDeg(mavlink_msg_attitude_get_roll(&msg));
                 }
                 break;
-            case MAVLINK_MSG_ID_MOUNT_STATUS:
-                {
-                    int32_t yaw = mavlink_msg_mount_status_get_pointing_c(&msg);
-                    cam_pan_angle = yaw / 100;
-                }
-                break;
-            case MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT:
-                {
-                    wp_target_bearing = mavlink_msg_nav_controller_output_get_target_bearing(&msg);
-                    wp_dist = mavlink_msg_nav_controller_output_get_wp_dist(&msg);
-                    alt_error = mavlink_msg_nav_controller_output_get_alt_error(&msg);
-                    aspd_error = mavlink_msg_nav_controller_output_get_aspd_error(&msg);
-                    xtrack_error = mavlink_msg_nav_controller_output_get_xtrack_error(&msg);
-                }
-                break;
-            case MAVLINK_MSG_ID_MISSION_CURRENT:
-                {
-                    wp_number = (uint8_t) mavlink_msg_mission_current_get_seq(&msg);
-                }
-                break;
+            /* case MAVLINK_MSG_ID_MOUNT_STATUS: */
+            /*     { */
+            /*         int32_t yaw = mavlink_msg_mount_status_get_pointing_c(&msg); */
+            /*         cam_pan_angle = yaw / 100; */
+            /*     } */
+            /*     break; */
+            /* case MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT: */
+            /*     { */
+            /*         wp_target_bearing = mavlink_msg_nav_controller_output_get_target_bearing(&msg); */
+            /*         wp_dist = mavlink_msg_nav_controller_output_get_wp_dist(&msg); */
+            /*         alt_error = mavlink_msg_nav_controller_output_get_alt_error(&msg); */
+            /*         aspd_error = mavlink_msg_nav_controller_output_get_aspd_error(&msg); */
+            /*         xtrack_error = mavlink_msg_nav_controller_output_get_xtrack_error(&msg); */
+            /*     } */
+            /*     break; */
+            /* case MAVLINK_MSG_ID_MISSION_CURRENT: */
+            /*     { */
+            /*         wp_number = (uint8_t) mavlink_msg_mission_current_get_seq(&msg); */
+            /*     } */
+            /*     break; */
             case MAVLINK_MSG_ID_RC_CHANNELS:
                 {
 //                    chan1_raw = mavlink_msg_rc_channels_raw_get_chan1_raw(&msg);
@@ -153,12 +153,12 @@ void read_mavlink()
                     osd_rssi = mavlink_msg_rc_channels_get_rssi(&msg);
                 }
                 break;
-            case MAVLINK_MSG_ID_WIND:
-                {
-                    osd_winddirection = mavlink_msg_wind_get_direction(&msg);   // 0..360 deg, 0=north
-                    osd_windspeed = mavlink_msg_wind_get_speed(&msg);   //m/s
-                }
-                break;
+            /* case MAVLINK_MSG_ID_WIND: */
+            /*     { */
+            /*         osd_winddirection = mavlink_msg_wind_get_direction(&msg);   // 0..360 deg, 0=north */
+            /*         osd_windspeed = mavlink_msg_wind_get_speed(&msg);   //m/s */
+            /*     } */
+            /*     break; */
             case MAVLINK_MSG_ID_HIGHRES_IMU:
                 {
                     temperature = mavlink_msg_highres_imu_get_temperature(&msg);

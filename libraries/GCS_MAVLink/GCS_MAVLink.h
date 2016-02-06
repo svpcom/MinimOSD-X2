@@ -12,7 +12,7 @@
 // to select MAVLink 1.0 in the arduino GUI build
 //#define MAVLINK_SEPARATE_HELPERS
 
-#include "include/mavlink/v1.0/ardupilotmega/version.h"
+#include "include/mavlink/v1.0/pixhawk/version.h"
 
 // this allows us to make mavlink_message_t much smaller
 //
@@ -23,7 +23,7 @@
 // FILE_TRANSFER_PROTOCOL (254), V2_EXTENSION (254),
 // ENCAPSULATED_DATA (255)
 // LOCAL_POSITION_NED_COV (181), GLOBAL_POSITION_INT_COV (185)
-#define MAVLINK_MAX_PAYLOAD_LEN 101
+#define MAVLINK_MAX_PAYLOAD_LEN 255 //101
 
 #define MAVLINK_COMM_NUM_BUFFERS 1
 #include "include/mavlink/v1.0/mavlink_types.h"
@@ -81,7 +81,7 @@ uint8_t mavlink_get_message_crc(uint8_t msgid);
 
 #define MAVLINK_MESSAGE_CRC(msgid) mavlink_get_message_crc(msgid)
 #define MAVLINK_USE_CONVENIENCE_FUNCTIONS
-#include "include/mavlink/v1.0/ardupilotmega/mavlink.h"
+#include "include/mavlink/v1.0/pixhawk/mavlink.h"
 
 uint8_t mavlink_check_target(uint8_t sysid, uint8_t compid);
 
