@@ -605,18 +605,18 @@ void panAlt(int first_col, int first_line)
 /* **************************************************************** */
 // Panel  : panClimb
 // Needs  : X, Y locations
-// Output : Alt symbol and altitude value in meters from MAVLink
+// Output : Climb symbol and climb value in m/s from MAVLink
 // Size   : 1 x 7Hea  (rows x chars)
 // Staus  : done
 
 void panClimb(int first_col, int first_line)
 {
-    int vs_int;
     osd.setPanel(first_col, first_line);
     if (osd_statf1 & TRIG100MS_F1)
-        vs = (osd_climb * converth * 6) * 0.1 + vs * 0.9;       // result is 10m/min or 10ft/min
-    vs_int = (int) vs *10;
-    osd.printf_P(PSTR("%c%3i%c"), vs_int >= 0 ? 0x15 : 0x0a, abs(vs_int), climbchar);
+    {
+        vs = (osd_climb * converth) * 0.2 + vs * 0.8;  // EMA filter, result is m/s or ft/s
+    }
+    osd.printf_P(PSTR("%c%5.1f%c"), vs >= 0 ? 0x15 : 0x0a, fabs(vs), climbchar);
 }
 
 /* **************************************************************** */
@@ -676,7 +676,7 @@ void check_warn()
     uint8_t bit, prev_warn;
     uint8_t motor_warn;
 
-    motor_warn = osd_throttle > motor_warn_thr && osd_curr_A < (int16_t) motor_warn_curr *10;
+    //motor_warn = osd_throttle > motor_warn_thr && osd_curr_A < (int16_t) motor_warn_curr *10;
 
     if ((osd_statf & WARN_MOTOR_F) != 0 && !motor_warn)
         osd_statf &= ~WARN_MOTOR_F;
@@ -686,8 +686,8 @@ void check_warn()
 
     if (osd_fix_type < 2)
         wmask |= 1;
-    if (osd_airspeed * converts < stall && takeofftime == 1)
-        wmask |= 2;
+    /* if (osd_airspeed * converts < stall && takeofftime == 1) */
+    /*     wmask |= 2; */
     if (osd_airspeed * converts > (float) overspeed)
         wmask |= 4;
     if (osd_vbat_A < float (battv) / 10.0 || (osd_battery_remaining_A < batt_warn_level && batt_warn_level != 0))
@@ -741,9 +741,9 @@ void panWarn(int first_col, int first_line)
     case 1:
         osd.printf_P(PSTR(TXT_WARN_NOGPS));
         break;
-    case 2:
-        osd.printf_P(PSTR(TXT_WARN_STALL));
-        break;
+    /* case 2: */
+    /*     osd.printf_P(PSTR(TXT_WARN_STALL)); */
+    /*     break; */
     case 3:
         osd.printf_P(PSTR(TXT_WARN_OVERSPEED));
         break;
@@ -753,9 +753,9 @@ void panWarn(int first_col, int first_line)
     case 5:
         osd.printf_P(PSTR(TXT_WARN_RSSILOW));
         break;
-    case 6:
-        osd.printf_P(PSTR(TXT_WARN_MOTOR));
-        break;
+    /* case 6: */
+    /*     osd.printf_P(PSTR(TXT_WARN_MOTOR)); */
+    /*     break; */
     case 7:
         osd.printf_P(PSTR(TXT_WARN_NOMAV));
     }

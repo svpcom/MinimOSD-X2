@@ -1,12 +1,12 @@
 #pragma once
-#define TXT_VERSION "MinimOSD X2 0.5.2|Plane|"
+#define TXT_VERSION "MinimOSD X2|svpcom|"
 #define TXT_VERSION_FONT "Font version: "
 #define TXT_WARN_NOGPS     " No GPS fix!"
-#define TXT_WARN_STALL     "   Stall!"
+//#define TXT_WARN_STALL     "   Stall!"
 #define TXT_WARN_OVERSPEED " Overspeed!"
 #define TXT_WARN_LOWBATT   "Battery Low!"
 #define TXT_WARN_RSSILOW   "  Low RSSI"
-#define TXT_WARN_MOTOR     " Motor off!"
+//#define TXT_WARN_MOTOR     " Motor off!"
 #define TXT_WARN_NOMAV     "No MAV data!"
 
 // max 7 chars
